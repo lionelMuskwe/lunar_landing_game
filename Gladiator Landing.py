@@ -23,7 +23,7 @@ def typeWrite(phrase, phraseType=""): # prints out like a type writer
 class SpaceShuttle: # Creating a class for the spaceshuttle. Will encapsulate all shuttle data
     def __init__(self,height):
         self.shuttleHeight = height
-        self.shuttleFuel = 3
+        self.shuttleFuel = 90
         self.shuttleVelocity = 0
         
     def coast(self):
@@ -77,7 +77,7 @@ successMessage = "Sergeant Roskin put you through a lot aye? That training final
         \n\t\t Good landing Jack Cooper"
 #closing messages above
 
-gladiator = SpaceShuttle(10) # creating instance of spaceshuttle
+gladiator = SpaceShuttle(1000) # creating instance of spaceshuttle
 #gladiator is the name being given to the shuttle
 landing = True
 

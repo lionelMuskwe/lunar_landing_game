@@ -56,9 +56,9 @@ class SpaceShuttle: # Creating a class for the spaceshuttle. Will encapsulate al
         self.shuttleVelocity += (accelaration * time) 
 
     def printStats(self): # this prints after every iteration
-        print ("\tShuttle height    :{} ".format(self.shuttleHeight))
-        print ("\tShuttle velocity  :{0} {1}".format(self.shuttleVelocity, "ms\u00b2"))
-        print ("\tShuttle Fuel       :{} ".format(self.shuttleFuel))
+        print ("\tShuttle height    :{0}{1}".format(self.shuttleHeight, "meters"))
+        print ("\tShuttle velocity  :{0} {1}".format(self.shuttleVelocity, "m/s"))
+        print ("\tShuttle Fuel       :{} liters".format(self.shuttleFuel))
 
 #openning messages below
 typeWrite("\t\t Atmosphere entered\n")
@@ -92,7 +92,7 @@ while landing:
     elif action ==  "c":
         gladiator.coast()
     else:
-        typeWrite("\t[HELP] Input [b to burn] or [c to coast]")
+        typeWrite("\t[HELP] Input [b to burn] or [c to coast]\n")
     
     if gladiator.shuttleHeight in range (-10, 0) : # checks if landing is between 0 and -10 meters
         if gladiator.shuttleVelocity < 10: # checks if velocity is greate than 10
@@ -102,11 +102,12 @@ while landing:
             typeWrite (successMessage)
             break # exit loop
         else:
-            typeWrite("Your velocity was to great, you crashed")
+            typeWrite("You CRASHED with a velocity of {0}{1}".format(gladiator.shuttleVelocity, "m/s"))
             typeWrite (farewellMessage)
     
     if gladiator.shuttleHeight < 0 :
         typeWrite ("You crashed and burned\n")
+        typeWrite("You CRASHED with a velocity of {0}{1}".format(gladiator.shuttleVelocity, "m/s. \n"))
         typeWrite (farewellMessage)
         break # exit loop
 

@@ -21,8 +21,8 @@ def typeWrite(phrase, phraseType=""): # prints out like a type writer
 #### the ABOVE code is just for print formatting
             
 class SpaceShuttle: # Creating a class for the spaceshuttle. Will encapsulate all shuttle data
-    def __init__(self,height):
-        self.shuttleHeight = height
+    def __init__(self,altitude):
+        self.shuttleAltitude = altitude
         self.shuttleFuel = 90
         self.shuttleVelocity = 0
         
@@ -30,7 +30,7 @@ class SpaceShuttle: # Creating a class for the spaceshuttle. Will encapsulate al
         time = input("Coast duruation (sec) :")
         if  time.isdigit():
             time = int(time)
-            self.getNewHeight(time, "coast")
+            self.getNewAltitude(time, "coast")
         else:
             self.coast()
 
@@ -39,24 +39,24 @@ class SpaceShuttle: # Creating a class for the spaceshuttle. Will encapsulate al
             time = input("Burn duruation (sec) :")
             if time.isdigit() :
                 time = int(time)
-                self.getNewHeight(time, "burn")
+                self.getNewAltitude(time, "burn")
             else:
                 self.burn()
         else:
             print("\t\t\t[Alert] Fuel tanks empty")
 
-    def getNewHeight(self,time, action): # updates teh shuttle height
+    def getNewAltitude(self,time, action): # updates teh shuttle altitude
         if action == "coast":
             accelaration = -1.625
         else:
             accelaration = 2.5
             self.shuttleFuel -= time #because it will be burning fuel
 
-        self.shuttleHeight += (0.5 * accelaration * time**2) + (self.shuttleVelocity * time)
+        self.shuttleAltitude += (0.5 * accelaration * time**2) + (self.shuttleVelocity * time)
         self.shuttleVelocity += (accelaration * time) 
 
     def printStats(self): # this prints after every iteration
-        print ("\tShuttle height    :{0}{1}".format(self.shuttleHeight, "meters"))
+        print ("\tShuttle altitude    :{0}{1}".format(self.shuttleAltitude, " meters"))
         print ("\tShuttle velocity  :{0} {1}".format(self.shuttleVelocity, "m/s"))
         print ("\tShuttle Fuel       :{} liters".format(self.shuttleFuel))
 
@@ -67,6 +67,9 @@ typeWrite("\t\tJack, drop us safely pilot\n")
 
 typeWrite("\n\n This is not a simulation this is the real deal. \n \
 For optimum landing, hit the ground at less than 10 meters per second\n\n")
+
+typeWrite("COAST to increase fall speed \n")
+typeWrite("BURN to reduce fall speed. If you burn to much, you may start gaining altitude \n\n")
 # oppenning messages above
 
 #closing messages below
@@ -94,7 +97,7 @@ while landing:
     else:
         typeWrite("\t[HELP] Input [b to burn] or [c to coast]\n")
     
-    if gladiator.shuttleHeight in range (-10, 0) : # checks if landing is between 0 and -10 meters
+    if gladiator.shuttleAltitude in range (-10, 0) : # checks if landing is between 0 and -10 meters
         if gladiator.shuttleVelocity < 10: # checks if velocity is greate than 10
             typeWrite ("\nLanding logged: ")
             typeWrite(datetime.datetime.now().ctime(), "date")
@@ -103,11 +106,13 @@ while landing:
             break # exit loop
         else:
             typeWrite("You CRASHED with a velocity of {0}{1}".format(gladiator.shuttleVelocity, "m/s"))
+            typeWrite("Your final altitude would have been {} meters \n".format(gladiator.shuttleAltitude))
             typeWrite (farewellMessage)
     
-    if gladiator.shuttleHeight < 0 :
+    if gladiator.shuttleAltitude < 0 :
         typeWrite ("You crashed and burned\n")
         typeWrite("You CRASHED with a velocity of {0}{1}".format(gladiator.shuttleVelocity, "m/s. \n"))
+        typeWrite("Your final altitude would have been {} meters \n".format(gladiator.shuttleAltitude))
         typeWrite (farewellMessage)
         break # exit loop
 

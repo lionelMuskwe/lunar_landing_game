@@ -5,8 +5,8 @@ from time import sleep
 import datetime
 
 def typeWrite(phrase, phraseType=""): # prints out like a type writer
-    normalDelay = 0.03
-    extendedDelay = 1
+    normalDelay = 0.0 #0.03
+    extendedDelay = 0.0 #1
     
     if phraseType == "date":
         normalDelay = 0.3
@@ -18,7 +18,7 @@ def typeWrite(phrase, phraseType=""): # prints out like a type writer
         if char == "," or char == "." :
             sleep(extendedDelay)
 
-#### the ABOVE code is just for print formatting
+#### the ABOVE code is just for print styling
             
 class SpaceShuttle: # Creating a class for the spaceshuttle. Will encapsulate all shuttle data
     def __init__(self,altitude):
@@ -39,7 +39,10 @@ class SpaceShuttle: # Creating a class for the spaceshuttle. Will encapsulate al
             time = input("Burn duruation (sec) :")
             if time.isdigit() :
                 time = int(time)
-                self.getNewAltitude(time, "burn")
+                if time < self.shuttleFuel:
+                    self.getNewAltitude(time, "burn")
+                else:
+                    print("[ERROR] Trying to use more fuel than available\n")
             else:
                 self.burn()
         else:
@@ -80,41 +83,47 @@ successMessage = "Sergeant Roskin put you through a lot aye? That training final
         \n\t\t Good landing Jack Cooper"
 #closing messages above
 
-gladiator = SpaceShuttle(1000) # creating instance of spaceshuttle
+# The program begins below
+
 #gladiator is the name being given to the shuttle
 landing = True
+gameRunning = True
 
-while landing:
-    gladiator.printStats() # display current gladiator details
+while gameRunning:
+    gladiator = SpaceShuttle(1000) # creating instance of spaceshuttle
+    while landing:
+        gladiator.printStats() # display current gladiator details
 
-    print("\nBurn or Coast")
-    action = input("\t[b] or [c] : ")
+        print("\nBurn or Coast")
+        action = input("\t[b] or [c] : ")
 
-    if action == "b" :
-        gladiator.burn() 
-    elif action ==  "c":
-        gladiator.coast()
-    else:
-        typeWrite("\t[HELP] Input [b to burn] or [c to coast]\n")
-    
-    if gladiator.shuttleAltitude in range (-10, 0) : # checks if landing is between 0 and -10 meters
-        if gladiator.shuttleVelocity < 10: # checks if velocity is greate than 10
-            typeWrite ("\nLanding logged: ")
-            typeWrite(datetime.datetime.now().ctime(), "date")
-            typeWrite ("\nGood Landing, well done pilot. Now unpack and prepare for decompression\n")
-            typeWrite (successMessage)
-            break # exit loop
+        if action == "b" :
+            gladiator.burn() 
+        elif action ==  "c":
+            gladiator.coast()
         else:
-            typeWrite("You CRASHED with a velocity of {0}{1}".format(gladiator.shuttleVelocity, "m/s"))
-            typeWrite("Your final altitude would have been {} meters \n".format(gladiator.shuttleAltitude))
-            typeWrite (farewellMessage)
-    
-    if gladiator.shuttleAltitude < 0 :
-        typeWrite ("You crashed and burned\n")
-        typeWrite("You CRASHED with a velocity of {0}{1}".format(gladiator.shuttleVelocity, "m/s. \n"))
-        typeWrite("Your final altitude would have been {} meters \n".format(gladiator.shuttleAltitude))
-        typeWrite (farewellMessage)
-        break # exit loop
+            typeWrite("\t[HELP] Input [b to burn] or [c to coast]\n")
+        
+        if gladiator.shuttleAltitude < 0 : # checks if shuttle has hit the ground
+            if gladiator.shuttleVelocity > -10: # checks if velocity is less than 10
+                typeWrite ("\nLanding logged: ")
+                typeWrite(datetime.datetime.now().ctime(), "date")
+                typeWrite ("\nGood Landing, well done pilot. Now unpack and prepare for decompression\n")
+                typeWrite (successMessage)
+                break # exit loop
+            else:
+                typeWrite("\nYou CRASHED with a velocity of {0}{1}".format(gladiator.shuttleVelocity, "m/s"))
+                typeWrite("Your final altitude would have been {} meters \n".format(gladiator.shuttleAltitude))
+                print("me")
+                typeWrite (farewellMessage)
+                break
+
+    playAgain = input("\n\n\t\tWant to play again? [y or n] :")
+    if playAgain in ["n", "no", "nop"]:
+        break
+    else:
+        print("\n\n >>>LET'S try again\n")
+        print("[Hint : Try and land between [Hit the ground with a speed lower than 10m/s ]\n")
 
 print("\n\nEND OF PROGRAM")
 
